@@ -2,6 +2,7 @@
   (:gen-class))
 
 (def total-de-vidas 6)
+(def palavra-secreta "MELANCIA")
 
 (defn perdeu [] (print "Você perdeu!\n"))
 (defn ganhou [] (print "Você ganhou!\n"))
@@ -16,7 +17,16 @@
 
 (defn le-letra! [] (read-line))
 
+(defn imprime-forca [vidas palavra acertos]
+  (println "Vidas" vidas)
+  (doseq [letra (seq palavra)]
+    (if(contains? acertos (str letra))
+      (print letra " ") 
+      (print "_" " ")))
+  (println))
+
 (defn jogo [vidas palavra acertos]
+  (imprime-forca vidas palavra acertos)
   (cond 
     (= vidas 0) (perdeu)
     (acertou-a-palavra-toda? palavra acertos) (ganhou)
@@ -31,7 +41,8 @@
           (println "Errou a letra!")
           (recur (dec vidas) palavra acertos))))))
 
+(defn comeca-o-jogo [] (jogo total-de-vidas palavra-secreta #{}))
+
 (defn -main
-  "I don't do a whole lot ... yet."
   [& args]
-  (println "Hello, World!"))
+  (comeca-o-jogo))
